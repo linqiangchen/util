@@ -1,0 +1,22 @@
+{
+  "name": "clq-util",
+  "version": "1.0.0",
+  "description": "js常用工具函数",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linqiangchen/util.git"
+  },
+  "keywords": [
+    "js"
+  ],
+  "author": "陈林强",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/linqiangchen/util/issues"
+  },
+  "homepage": "https://github.com/linqiangchen/util#readme"
+}
