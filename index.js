@@ -7,20 +7,68 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.formatDate = exports.sortByProp = exports.randomColor = exports.swap = exports.addZero = exports._sort = exports.randomInt = void 0;
+exports.clone = exports.formatDate = exports.sortByProp = exports.randomColor = exports.swap = exports.addZero = exports._sort = exports.randomCode = exports.codeNum = exports.randomInt = void 0;
+/**
+* @author:陈林强
+* @timer:2020-10-24
+* @email:1715503491@qq.com
+* @version:1.0
+* @title:封装一个自己常用的工具类js
+* @note:
+*/
 /**
      * 产生[min,max]范围内的整数
      * @param min 范围下限
      * @param max 范围上限
+     * @return 范围内的整数
+     * @example randomInt(10,20) => 15
      */
 function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 exports.randomInt = randomInt;
 /**
+    * 产生随机数字验证码
+    * @param length 验证码位数，范围2到10,-1表示随机位数
+    * @example codeNum(4) => 4681
+    */
+function codeNum(length) {
+    if (length === void 0) { length = 6; }
+    if (length === -1) {
+        return Math.random().toFixed(15).toString().slice(-randomInt(2, 8));
+    }
+    else if (length >= 2 && length <= 10) {
+        return Math.random().toString().slice(-length);
+    }
+    else {
+        return 'null';
+    }
+}
+exports.codeNum = codeNum;
+/**
+    * 产生随机验证码包括数字，字母（大小写）
+    * @param len 验证码位数
+    * @example randomCode(6) => By5Z1Y
+    */
+function randomCode(len) {
+    if (len === void 0) { len = 6; }
+    var arr = [];
+    for (var i = 0, n = len; i < n; i++) {
+        do {
+            var ascii = randomInt(48, 122);
+        } while ((ascii > 57 && ascii < 65) || (ascii > 90 && ascii < 97));
+        arr[i] = String.fromCharCode(ascii);
+    }
+    ;
+    return arr.join('');
+}
+exports.randomCode = randomCode;
+/**
      * 自定义排序
      * @param arr 需要进行排序的数组
      * @param type 排序方式：1升序，2：降序，3：随机
+     * @return 排好序的数组
+     * @example _sort([1,3,2],1) => [1,2,3]
      */
 function _sort(arr, type) {
     return arr.sort(function (a, b) {
@@ -42,6 +90,7 @@ exports._sort = _sort;
      * @param len 希望补成多少位，默认为两位
      * @param str 用什么填补，默认用'0'
      * @param location 插入位置，before：前面，after：后面
+     * @example addZero(4) => '04'
      */
 function addZero(num, len, str, location) {
     if (len === void 0) { len = 2; }
@@ -60,6 +109,7 @@ exports.addZero = addZero;
      * @param arr 需要交换元素的数组
      * @param fir 第一个元素下标
      * @param sec 第二个元素下标
+     * @example swap([1,2],0,1)
      */
 function swap(arr, fir, sec) {
     var temp = arr[fir];
@@ -69,6 +119,7 @@ function swap(arr, fir, sec) {
 exports.swap = swap;
 /**
      * 产生随机16进制的颜色
+     * @example randomColor() => '#f2f2f2'
      */
 function randomColor() {
     var map = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'];
@@ -108,6 +159,7 @@ exports.sortByProp = sortByProp;
      * y-m-d h-m：2020-10-24 12:10
      * M-D：10月24日
      * m-d：10-24
+     *@example formatDate('Y-M-D H-M-S') => 2020年10月24日 12时10分24秒
      */
 function formatDate(type, time) {
     if (time === void 0) { time = Date.now(); }
@@ -116,7 +168,6 @@ function formatDate(type, time) {
     var month = addZero(date.getMonth() + 1);
     var day = addZero(date.getDate());
     var hour = addZero(date.getHours());
-    console.log('hour: ', hour);
     var minute = addZero(date.getMinutes());
     var second = addZero(date.getSeconds());
     switch (type) {
@@ -145,3 +196,16 @@ function formatDate(type, time) {
     }
 }
 exports.formatDate = formatDate;
+/**
+     * 深克隆对象(不能克隆null，undefined和函数)
+     * @param obj 需要克隆的对象
+     */
+function clone(obj) {
+    if (typeof obj === 'object') {
+        return JSON.parse(JSON.stringify(obj));
+    }
+    else {
+        return {};
+    }
+}
+exports.clone = clone;
